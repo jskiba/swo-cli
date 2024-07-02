@@ -25,6 +25,7 @@ type Client struct {
 }
 
 type Log struct {
+	ID       string    `json:"id"`
 	Time     time.Time `json:"time"`
 	Message  string    `json:"message"`
 	Hostname string    `json:"hostname"`
@@ -56,7 +57,7 @@ func (c *Client) prepareRequest(ctx context.Context, nextPage string) (*http.Req
 	params := url.Values{}
 	if nextPage == "" {
 		logsEndpoint, err = url.JoinPath(c.opts.ApiUrl, "v1/logs")
-		params.Add("direction", "forward")
+		params.Add("direction", "tail")
 		params.Add("pageSize", "1000")
 
 		if c.opts.group != "" {
